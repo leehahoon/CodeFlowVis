@@ -166,6 +166,111 @@ function activate(context) {
 
 	context.subscriptions.push(disableHighlightCommand);
 	context.subscriptions.push(highlightFromFileCommand);
+
+	// 하이라이트된 라인으로 이동하는 커맨드
+	let goToHighlightCommand = vscode.commands.registerCommand('codeflowvis.goToHighlight', async function () {
+		const highlightInfos = context.globalState.get('highlightInfos', []);
+		if (highlightInfos.length === 0) {
+			vscode.window.showInformationMessage('No highlights found.');
+			return;
+		}
+
+		const orderItems = highlightInfos.map(info => ({
+			label: `ExecFlow ${info.order}: ${path.basename(info.filePath)}:${info.lineNumber + 1}`,
+			info
+		}));
+
+		const selectedOrder = await vscode.window.showQuickPick(orderItems, {
+			placeHolder: 'Select a highlight to go to'
+		});
+
+		if (selectedOrder) {
+			const { filePath, lineNumber } = selectedOrder.info;
+			const document = await vscode.workspace.openTextDocument(filePath);
+			const editor = await vscode.window.showTextDocument(document);
+			const range = new vscode.Range(lineNumber, 0, lineNumber, 0);
+			editor.selection = new vscode.Selection(range.start, range.end);
+			editor.revealRange(range, vscode.TextEditorRevealType.InCenter);
+		}
+	});
+
+	context.subscriptions.push(goToHighlightCommand);
+
+	// 다음 하이라이트로 이동하는 커맨드
+	let nextHighlightCommand = vscode.commands.registerCommand('codeflowvis.nextHighlight', function () {
+		const highlightInfos = context.globalState.get('highlightInfos', []);
+		if (highlightInfos.length === 0) {
+			vscode.window.showInformationMessage('No highlights found.');
+			return;
+		}
+
+		const editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			vscode.window.showInformationMessage('No active editor found.');
+			return;
+		}
+
+		const currentFilePath = editor.document.uri.fsPath;
+		const currentPosition = editor.selection.active;
+		const currentHighlightIndex = highlightInfos.findIndex(info =>
+			info.filePath === currentFilePath &&
+			info.lineNumber === currentPosition.line
+		);
+
+		if (currentHighlightIndex === -1 || currentHighlightIndex === highlightInfos.length - 1) {
+			vscode.window.showInformationMessage('No next highlight found.');
+			return;
+		}
+
+		const nextHighlight = highlightInfos[currentHighlightIndex + 1];
+		const document = vscode.workspace.openTextDocument(nextHighlight.filePath).then(doc => {
+			vscode.window.showTextDocument(doc).then(editor => {
+				const range = new vscode.Range(nextHighlight.lineNumber, 0, nextHighlight.lineNumber, 0);
+				editor.selection = new vscode.Selection(range.start, range.end);
+				editor.revealRange(range, vscode.TextEditorRevealType.InCenter);
+			});
+		});
+	});
+
+	context.subscriptions.push(nextHighlightCommand);
+
+	// 이전 하이라이트로 이동하는 커맨드
+	let previousHighlightCommand = vscode.commands.registerCommand('codeflowvis.previousHighlight', function () {
+		const highlightInfos = context.globalState.get('highlightInfos', []);
+		if (highlightInfos.length === 0) {
+			vscode.window.showInformationMessage('No highlights found.');
+			return;
+		}
+
+		const editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			vscode.window.showInformationMessage('No active editor found.');
+			return;
+		}
+
+		const currentFilePath = editor.document.uri.fsPath;
+		const currentPosition = editor.selection.active;
+		const currentHighlightIndex = highlightInfos.findIndex(info =>
+			info.filePath === currentFilePath &&
+			info.lineNumber === currentPosition.line
+		);
+
+		if (currentHighlightIndex === -1 || currentHighlightIndex === 0) {
+			vscode.window.showInformationMessage('No previous highlight found.');
+			return;
+		}
+
+		const previousHighlight = highlightInfos[currentHighlightIndex - 1];
+		const document = vscode.workspace.openTextDocument(previousHighlight.filePath).then(doc => {
+			vscode.window.showTextDocument(doc).then(editor => {
+				const range = new vscode.Range(previousHighlight.lineNumber, 0, previousHighlight.lineNumber, 0);
+				editor.selection = new vscode.Selection(range.start, range.end);
+				editor.revealRange(range, vscode.TextEditorRevealType.InCenter);
+			});
+		});
+	});
+
+	context.subscriptions.push(previousHighlightCommand);
 }
 
 function deactivate() { }

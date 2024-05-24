@@ -1,3 +1,5 @@
+#### Visualize the code coverage and execution flow.
+
 ## Features
 
 ### Highlight Line
@@ -14,36 +16,30 @@ test2.c:13,4
 ...
 ```
 
-This allows you to understand code coverage and execution flow.
+You can execute `CodeFlowVis: Highlight Line` in command palette. 
+When you execute the highting, you input the above file.
 
 ### Clear Highlighting
 This feature removes the highlighted information.
+You can execute `CodeFlowVis: Clear Highlight` in command palette. 
 
-## Requirements
+### Go To Highlight
+You can use the `Go To Highlight` feature to navigate to the desired line in the code coverage file. The shortcut is (`cmd+alt+h`).
 
-## Extension Settings
-
-## Known Issues
+### Next, Previous Highlight
+You can use the `Next Highlight` and `Previous Highlight` features to navigate to the next or previous step in the execution flow. The shortcuts are (`cmd+alt+n`) and (`cmd+alt+p`) respectively.
 
 ## Release Notes
 
-### 1.0.0
+### 0.0.1
 
 Initial release of ...
 
+### 0.0.2
+
+Add `Go To Highlighting`, `Next Highlighting`, `Previous Highlighting` 
+
 ---
 
-## Working with Markdown
-
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**

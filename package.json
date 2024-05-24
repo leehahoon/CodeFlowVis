@@ -1,8 +1,10 @@
 {
   "name": "codeflowvis",
+  "publisher": "JaehoonJang",
   "displayName": "CodeFlowVis",
   "description": "",
-  "version": "0.0.1",
+  "repository": "https://github.com/leehahoon/CodeFlowVis",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.88.0"
   },
@@ -28,6 +30,35 @@
       {
         "command": "codeflowvis.clearHighlight",
         "title": "CodeFlowVis: Clear Highlight"
+      },
+      {
+        "command": "codeflowvis.goToHighlight",
+        "title": "CodeFlowVis: Go To Highlight"
+      },
+      {
+        "command": "codeflowvis.nextHighlight",
+        "title": "CodeFlowVis: Next Highlight"
+      },
+      {
+        "command": "codeflowvis.previousHighlight",
+        "title": "CodeFlowVis: Previous Highlight"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "codeflowvis.goToHighlight",
+        "key": "cmd+alt+h",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codeflowvis.nextHighlight",
+        "key": "cmd+alt+n",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codeflowvis.previousHighlight",
+        "key": "cmd+alt+p",
+        "when": "editorTextFocus"
       }
     ]
   },
