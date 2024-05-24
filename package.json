@@ -2,7 +2,8 @@
   "name": "codeflowvis",
   "publisher": "JaehoonJang",
   "displayName": "CodeFlowVis",
-  "description": "",
+  "description": "Visualize Code Coverage and Execution Flow",
+  "icon": "icon.png",
   "repository": "https://github.com/leehahoon/CodeFlowVis",
   "version": "0.0.2",
   "engines": {
