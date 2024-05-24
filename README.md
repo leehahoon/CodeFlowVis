@@ -39,6 +39,10 @@ Initial release of ...
 
 Add `Go To Highlighting`, `Next Highlighting`, `Previous Highlighting` 
 
+### 0.0.3
+
+Add CodeFlowVis icon
+
 ---
 
 
